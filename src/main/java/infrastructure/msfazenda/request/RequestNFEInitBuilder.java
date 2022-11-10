@@ -3,7 +3,7 @@ package infrastructure.msfazenda.request;
 public class RequestNFEInitBuilder {
     private String formulario;
     private String btSubmitQRCode;
-    private String p; //TODO: Alterar Param name
+    private String p; // TODO: Alterar Param name
 
     public RequestNFEInitBuilder setFormulario(String formulario) {
         this.formulario = formulario;

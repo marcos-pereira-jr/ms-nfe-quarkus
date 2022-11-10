@@ -1,7 +1,5 @@
 package infrastructure.msfazenda.request;
 
-import lombok.Data;
-
 public class RequestNFE {
     private String formulario;
     private String btSubmitQRCode;
