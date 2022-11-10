@@ -5,18 +5,18 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
-import application.usecase.nfe.add.AddNFEUserCase;
-import application.usecase.nfe.add.request.NFERequest;
+import application.usecase.nfe.integration.IntrationNFEUserCase;
+import application.usecase.nfe.integration.request.IntegrationImport;
 
 @Path("/v1/import")
 public class ImportNFEController {
 
     @Inject
-    private AddNFEUserCase addNFEUserCase;
+    private IntrationNFEUserCase integration;
 
     @POST
-    public Response save(NFERequest request){
-        addNFEUserCase.executar(request);
+    public Response integration(IntegrationImport request) {
+        integration.run(request.getCode());
         return Response.ok().build();
     }
 }
