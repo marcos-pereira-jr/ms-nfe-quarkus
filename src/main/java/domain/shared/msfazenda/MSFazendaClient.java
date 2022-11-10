@@ -1,5 +1,7 @@
 package domain.shared.msfazenda;
 
+import javax.ws.rs.core.MultivaluedMap;
+
 public interface MSFazendaClient {
-    ResponseNFE getNFE(String contentType, String id);
+    ResponseNFE getNFE(MultivaluedMap map);
 }
