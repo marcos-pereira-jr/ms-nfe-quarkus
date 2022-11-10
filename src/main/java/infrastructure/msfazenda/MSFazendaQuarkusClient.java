@@ -6,7 +6,7 @@ import javax.ws.rs.Path;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import infrastructure.msfazenda.response.ResponseNFE;
+import domain.shared.msfazenda.ResponseNFE;
 
 @Path("/consultaQRCode.faces")
 @RegisterRestClient
