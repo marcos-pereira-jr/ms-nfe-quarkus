@@ -8,9 +8,7 @@ import javax.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import domain.shared.msfazenda.MSFazendaClient;
-import domain.shared.msfazenda.ResponseNFE;
-
-import java.net.http.HttpResponse;
+import infrastructure.msfazenda.response.ResponseMSFazenda;
 
 @Singleton
 public class MSFazendaClientImpl implements MSFazendaClient {
@@ -18,9 +16,13 @@ public class MSFazendaClientImpl implements MSFazendaClient {
     @RestClient
     MSFazendaQuarkusClient msFazendaQuarkusClient;
 
-    public ResponseNFE getNFE(MultivaluedMap map) {
+    public ResponseMSFazenda getNFE(MultivaluedMap<String, String> map) {
+        ResponseMSFazenda responseMSFazenda = new ResponseMSFazenda();
         Response response = msFazendaQuarkusClient.getNFE(map);
-        return null;
+
+        responseMSFazenda.setXml(response.readEntity(String.class));
+        responseMSFazenda.setCookie(response.getHeaderString("set-cookie"));
+        return responseMSFazenda;
     }
 
 }

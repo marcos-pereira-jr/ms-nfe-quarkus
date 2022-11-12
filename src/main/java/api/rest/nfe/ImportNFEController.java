@@ -12,7 +12,7 @@ import application.usecase.nfe.integration.request.IntegrationImport;
 public class ImportNFEController {
 
     @Inject
-    private IntrationNFEUserCase integration;
+    IntrationNFEUserCase integration;
 
     @POST
     public Response integration(IntegrationImport request) {
