@@ -8,7 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import domain.service.shared.nfe.read.checkhands.CheckHands;
+import domain.service.checkhands.CheckHands;
 import infrastructure.msfazenda.response.ResponseMSFazenda;
 
 public class ExtractMetaDataCheck {
@@ -18,13 +18,20 @@ public class ExtractMetaDataCheck {
 
     public static CheckHands extract(ResponseMSFazenda response) {
         try {
-
-            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-            InputSource inputSource = new InputSource(new StringReader(response.getXml()));
-            inputSource.setEncoding("UTF-8");
-            Document document = documentBuilder.parse(inputSource);
+            Document document = extractDocument(response.getXml());
             String viewState = document.getElementById(PATH_VIEW_STATE).getAttribute(ATRIBUTE_VIEW_STATE);
             return CheckHands.create(response.getCookie().concat(";"), viewState);
+        } catch (Exception e) {
+            throw new RuntimeException("Error on extrack Check Hands");
+        }
+    }
+
+    private static Document extractDocument(String xml) {
+        try {
+            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+            InputSource inputSource = new InputSource(new StringReader(xml));
+            inputSource.setEncoding("UTF-8");
+            return documentBuilder.parse(inputSource);
         } catch (Exception e) {
             throw new RuntimeException("Error on extrack Check Hands");
         }

@@ -6,8 +6,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.jboss.resteasy.specimpl.MultivaluedMapImpl;
 
+import domain.service.checkhands.CheckHands;
 import domain.service.shared.FormaterCode;
-import domain.service.shared.nfe.read.checkhands.CheckHands;
 
 public class ImportNFERequest {
     private String code;
