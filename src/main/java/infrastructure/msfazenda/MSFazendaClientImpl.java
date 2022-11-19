@@ -1,5 +1,7 @@
 package infrastructure.msfazenda;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.core.MultivaluedMap;
@@ -25,4 +27,11 @@ public class MSFazendaClientImpl implements MSFazendaClient {
         return responseMSFazenda;
     }
 
+    public ResponseMSFazenda getNFE(MultivaluedMap<String, String> querys, HashMap<String, String> headers) {
+        ResponseMSFazenda responseMSFazenda = new ResponseMSFazenda();
+        Response response = msFazendaQuarkusClient.getNFE(querys, headers.get("Cookie"));
+        responseMSFazenda.setXml(response.readEntity(String.class));
+        responseMSFazenda.setCookie(response.getHeaderString("set-cookie"));
+        return responseMSFazenda;
+    }
 }
