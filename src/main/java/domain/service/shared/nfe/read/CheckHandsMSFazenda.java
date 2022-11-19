@@ -11,7 +11,7 @@ public class CheckHandsMSFazenda {
 
     private MSFazendaClient client;
     private String initCode = "3321 1228 7901 8600 0149 6500 9000 2852 2390 0570 4466";
-    private String visual = "";
+    private CheckHands checkHands;
 
     public CheckHandsMSFazenda(MSFazendaClient client) {
         this.client = client;
@@ -21,11 +21,11 @@ public class CheckHandsMSFazenda {
     public void run() {
         ImportNFERequest request = ImportNFERequest.create(initCode);
         ResponseMSFazenda response = client.getNFE(request.getQueryParams());
-        CheckHands checkHands = ExtractMetaDataCheck.extract(response);
+        checkHands = ExtractMetaDataCheck.extract(response);
         return;
     }
 
-    public String getResolved() {
-        return this.visual;
+    public CheckHands getResolved() {
+        return this.checkHands;
     }
 }
