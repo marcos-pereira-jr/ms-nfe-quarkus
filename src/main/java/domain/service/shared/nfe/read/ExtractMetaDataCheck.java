@@ -6,8 +6,11 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import domain.model.NFE;
 import domain.service.checkhands.CheckHands;
 import infrastructure.msfazenda.response.ResponseMSFazenda;
 
@@ -35,5 +38,12 @@ public class ExtractMetaDataCheck {
         } catch (Exception e) {
             throw new RuntimeException("Error on extrack Check Hands");
         }
+    }
+
+    public static NFE extractProducts(ResponseMSFazenda response) {
+        Document document = extractDocument(response.getXml());
+        NodeList nodes = document.getElementsByTagName("table");
+        Node node = nodes.item(0);
+        return new NFE();
     }
 }
