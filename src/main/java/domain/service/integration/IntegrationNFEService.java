@@ -3,8 +3,8 @@ package domain.service.integration;
 import javax.inject.Singleton;
 
 import domain.service.shared.nfe.ImportNFERequest;
-import domain.service.shared.nfe.read.CheckHands;
-import domain.service.shared.nfe.read.CheckHandsMSFazenda;
+import domain.service.shared.nfe.read.checkhands.CheckHands;
+import domain.service.shared.nfe.read.checkhands.CheckHandsMSFazenda;
 import domain.shared.msfazenda.MSFazendaClient;
 import infrastructure.msfazenda.response.ResponseMSFazenda;
 

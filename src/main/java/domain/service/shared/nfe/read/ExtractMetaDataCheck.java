@@ -8,6 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import domain.service.shared.nfe.read.checkhands.CheckHands;
 import infrastructure.msfazenda.response.ResponseMSFazenda;
 
 public class ExtractMetaDataCheck {
