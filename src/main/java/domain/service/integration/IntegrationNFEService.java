@@ -2,23 +2,26 @@ package domain.service.integration;
 
 import javax.inject.Singleton;
 
-import domain.model.NFE;
 import domain.service.checkhands.CheckHands;
 import domain.service.checkhands.CheckHandsMSFazenda;
 import domain.service.shared.nfe.ImportNFERequest;
-import domain.service.shared.nfe.read.ExtractMetaDataCheck;
 import domain.shared.msfazenda.MSFazendaClient;
 import infrastructure.msfazenda.response.ResponseMSFazenda;
+import infrastructure.rabbitmq.MessageService;
 
 @Singleton
 public class IntegrationNFEService {
 
     private MSFazendaClient client;
     private CheckHandsMSFazenda checkHandsMSFazenda;
+    private MessageService messageService;
 
-    public IntegrationNFEService(MSFazendaClient client, CheckHandsMSFazenda checkHandsMSFazenda) {
+    public IntegrationNFEService(MSFazendaClient client,
+            CheckHandsMSFazenda checkHandsMSFazenda,
+            MessageService messageService) {
         this.client = client;
         this.checkHandsMSFazenda = checkHandsMSFazenda;
+        this.messageService = messageService;
     }
 
     public void run(String code) {
@@ -26,7 +29,7 @@ public class IntegrationNFEService {
         ImportNFERequest request = ImportNFERequest.create(code);
         request.setCheckHands(checkHands);
         ResponseMSFazenda response = client.getNFE(request.getQueryParams(), request.getHeaders());
-        NFE nfe = ExtractMetaDataCheck.extract(response);
+        messageService.send(response.getXml());
         System.out.println(response);
     }
 }

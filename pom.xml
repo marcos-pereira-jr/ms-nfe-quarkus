@@ -61,6 +61,12 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-client-jackson</artifactId>
     </dependency>
+
+<!-- RabbitMQ-->    
+  <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-reactive-messaging-rabbitmq</artifactId>
+  </dependency>
   </dependencies>
   <build>
     <plugins>

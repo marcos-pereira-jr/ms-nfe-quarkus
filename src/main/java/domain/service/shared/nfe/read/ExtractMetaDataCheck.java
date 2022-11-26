@@ -1,6 +1,7 @@
 package domain.service.shared.nfe.read;
 
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,7 +22,7 @@ public class ExtractMetaDataCheck {
 
     public static CheckHands extract(ResponseMSFazenda response) {
         try {
-            Document document = extractDocument(response.getXml());
+            Document document = extractDocument(response.getXml(), "UTF-8");
             String viewState = document.getElementById(PATH_VIEW_STATE).getAttribute(ATRIBUTE_VIEW_STATE);
             return CheckHands.create(response.getCookie().concat(";"), viewState);
         } catch (Exception e) {
@@ -29,11 +30,11 @@ public class ExtractMetaDataCheck {
         }
     }
 
-    private static Document extractDocument(String xml) {
+    private static Document extractDocument(String xml, String iso) {
         try {
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             InputSource inputSource = new InputSource(new StringReader(xml));
-            inputSource.setEncoding("UTF-8");
+            inputSource.setEncoding(iso);
             return documentBuilder.parse(inputSource);
         } catch (Exception e) {
             throw new RuntimeException("Error on extrack Check Hands");
@@ -41,7 +42,11 @@ public class ExtractMetaDataCheck {
     }
 
     public static NFE extractProducts(ResponseMSFazenda response) {
-        Document document = extractDocument(response.getXml());
+        String xml = response.getXml();
+        byte[] utf = xml.getBytes();
+        String te = new String(utf, StandardCharsets.ISO_8859_1);
+
+        Document document = extractDocument(response.getXml(), "ISO-8859-1");
         NodeList nodes = document.getElementsByTagName("table");
         Node node = nodes.item(0);
         return new NFE();
