@@ -1,6 +1,21 @@
 version: '3.7'
 services:
-
+  quarkus-service:
+    image: quarkus/ms-nfe
+    restart: on-failure
+    mem_limit: 128m
+    environment:
+      - HOST_ELASTICSEARCH=elasticsearch
+      - HOST_RABBIT=rabbitmq
+      - USER_RABBIT=adminuser
+      - PASSWORD_RABBIT=guest
+    ports:
+      - "8080:8080"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - nfe-networks
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
     ports:
@@ -10,16 +25,43 @@ services:
       discovery.type: "single-node"
       ES_JAVA_OPTS: "-Xms2g -Xmx2g"
       xpack.monitoring.enabled: "true"
-
-#  kibana:
-#    image: docker.elastic.co/kibana/kibana:7.7.0
-#    ports:
-#      - "5601:5601"
-#    environment:
-#      ELASTICSEARCH_URL: http://elasticsearch:9200
-#    depends_on:
-#      - elasticsearch
-
-volumes:
-  esdata:
-    driver: local
+    networks:
+      - nfe-networks
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5673:5672
+      - 15673:15672
+    volumes:
+      - type: bind
+        source: ./rabbitMQ/rabbitmq-enabled-plugins
+        target: /etc/rabbitmq/enabled_plugins
+      - type: bind
+        source: ./rabbitMQ/rabbitmq.config
+        target: /etc/rabbitmq/rabbitmq.conf
+      - type: bind
+        source: ./rabbitMQ/definitions.json
+        target: /etc/rabbitmq/definitions.json
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - nfe-networks
+  nfe-extract:
+    image: marcosantpereira/nfe-extract:latest
+    restart: on-failure
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    links:
+      - rabbitmq
+    environment:
+      - RABBITMQ= amqp://adminuser:guest@rabbitmq:5672
+      - RETRY=1000
+    networks:
+      - nfe-networks
+networks:
+  nfe-networks:

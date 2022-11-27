@@ -1,4 +1,4 @@
-package domain.service.shared.nfe.read;
+package domain.service.checkhands;
 
 import lombok.Getter;
 

@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import application.usecase.nfe.add.request.NFERequest;
-import domain.model.NFE;
+import domain.model.NFETest;
 import domain.service.AddNFEService;
 
 @Singleton
@@ -14,6 +14,6 @@ public class AddNFEUserCase {
     AddNFEService addNFEService;
 
     public void executar(NFERequest request) {
-        addNFEService.executar(NFE.create(request.getId(), request.getName(), request.getColor()));
+        addNFEService.executar(NFETest.create(request.getId(), request.getName(), request.getColor()));
     }
 }

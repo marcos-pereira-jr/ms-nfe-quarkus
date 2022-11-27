@@ -2,7 +2,7 @@ package domain.service;
 
 import javax.inject.Singleton;
 
-import domain.model.NFE;
+import domain.model.NFETest;
 import domain.repository.nfe.NFERepository;
 
 @Singleton // TODO: remove that Singleton
@@ -13,7 +13,7 @@ public class AddNFEService {
         this.repository = repository;
     }
 
-    public void executar(NFE nfe) {
+    public void executar(NFETest nfe) {
         repository.add(nfe);
     }
 }

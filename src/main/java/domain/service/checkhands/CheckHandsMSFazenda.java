@@ -1,8 +1,9 @@
-package domain.service.shared.nfe.read;
+package domain.service.checkhands;
 
 import javax.enterprise.context.ApplicationScoped;
 
 import domain.service.shared.nfe.ImportNFERequest;
+import domain.service.shared.nfe.read.ExtractMetaDataCheck;
 import domain.shared.msfazenda.MSFazendaClient;
 import infrastructure.msfazenda.response.ResponseMSFazenda;
 
