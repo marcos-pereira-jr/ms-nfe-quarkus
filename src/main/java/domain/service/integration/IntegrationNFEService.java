@@ -30,6 +30,5 @@ public class IntegrationNFEService {
         request.setCheckHands(checkHands);
         ResponseMSFazenda response = client.getNFE(request.getQueryParams(), request.getHeaders());
         messageService.send(response.getXml());
-        System.out.println(response);
     }
 }
